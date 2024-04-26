@@ -3,8 +3,8 @@ import Container from '../components/Container';
 const Main = () => {
   return (
     <main>
-      <header className="pt-[40px] relative w-[100vw] h-[1000px] bg-[url('./images/header-bg.jpg')] bg-cover bg-no-repeat">
-        <div className="absolute top-0 bottom-0 right-0 left-0 bg-black opacity-"></div>
+      <header className="z-10 pt-[40px] relative w-[100vw] h-[1000px] bg-[url('./images/header-bg.jpg')] bg-cover bg-no-repeat">
+        <div className="-z-10 absolute top-0 bottom-0 right-0 left-0 bg-black opacity-20"></div>
         <Container className="flex justify-between">
           <div className="flex justify-between w-[20%]"></div>
           <div className="flex items-center">
