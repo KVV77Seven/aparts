@@ -47,11 +47,17 @@ export default class Store {
 
   async logout() {
     try {
-      const response = await AuthService.logout();
+      await AuthService.logout();
+      console.log('logout succ');
+      
       localStorage.removeItem('token');
       this.setAuth(false);
       this.setUser({} as IUser);
+      console.log(this.isAuth);
+      
     } catch (e: any) {
+      console.log('catch');
+      
       console.log(e.response?.data?.message);
     }
   }
