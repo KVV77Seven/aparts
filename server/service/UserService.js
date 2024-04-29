@@ -41,7 +41,8 @@ class UserService {
       throw ApiError.BadRequest('Пользователь не найден');
     }
 
-    const isPassEquals = bcrypt.compare(password, user.password);
+    const isPassEquals = await bcrypt.compare(password, user.password);
+    
     if(!isPassEquals) {
       throw ApiError.BadRequest('Неккоректный пароль');
     }
@@ -55,7 +56,7 @@ class UserService {
 
   async logout(refreshToken) {
     const token = TokenService.removeToken(refreshToken);
-    return token
+    return token;
   }
 
   async refresh(refreshToken) {

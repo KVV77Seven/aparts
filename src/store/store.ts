@@ -8,6 +8,7 @@ import { AuthResponse } from '../models/AuthResponse';
 export default class Store {
   user = {} as IUser;
   isAuth = false;
+  error = '';
 
   constructor() {
     makeAutoObservable(this);
@@ -20,6 +21,9 @@ export default class Store {
   setUser(user: IUser) {
     this.user = user;
   }
+  setError(error: string) {
+    this.error = error;
+  }
 
   async login(email: string, password: string) {
     try {
@@ -31,6 +35,7 @@ export default class Store {
       this.setUser(response.data.user);
     } catch (e: any) {
       console.log(e.response?.data?.message);
+      this.setError(e.response?.data?.message);
     }
   }
 
@@ -42,16 +47,22 @@ export default class Store {
       this.setUser(response.data.user);
     } catch (e: any) {
       console.log(e.response?.data?.message);
+      this.setError(e.response?.data?.message);
     }
   }
 
   async logout() {
     try {
-      const response = await AuthService.logout();
+      await AuthService.logout();
+      console.log('logout succ');
+
       localStorage.removeItem('token');
       this.setAuth(false);
       this.setUser({} as IUser);
+      console.log(this.isAuth);
     } catch (e: any) {
+      console.log('catch');
+
       console.log(e.response?.data?.message);
     }
   }
@@ -61,6 +72,11 @@ export default class Store {
       const response = await axios.get<AuthResponse>(`${API_URL}/refresh`, {
         withCredentials: true,
       });
+      console.log(response);
+
+      if (!response) {
+        return;
+      }
       console.log(response.data);
 
       localStorage.setItem('token', response.data.accessToken);
